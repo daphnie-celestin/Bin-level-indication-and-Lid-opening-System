@@ -1,0 +1,35 @@
+#include <Servo.h>
+const int irSensorPin = A0;
+const int pirPin = 2;
+const int servoPin = 9;
+Servo myServo;
+
+void setup() 
+{
+  Serial.begin(9600);  
+  pinMode(pirPin, INPUT); 
+  myServo.attach(servoPin); 
+}
+
+void loop() 
+{
+  int pirValue = digitalRead(pirPin);
+  int sensorValue = analogRead(irSensorPin);
+  if (pirValue == HIGH) 
+  {
+    Serial.println("Motion detected!");
+    myServo.write(90);
+    delay(5000);    
+  } 
+  else 
+  {
+  myServo.write(0); 
+  }
+  Serial.print("IR Sensor Value: ");
+  Serial.println(sensorValue);
+  if (sensorValue < 40)
+    Serial.print("Bin is full");
+  else
+    Serial.print("Bin is not full");
+   delay(5000);
+}
